@@ -1,24 +1,10 @@
-/***
-* This example expects the serial port has a loopback on it.
-*
-* Alternatively, you could use an Arduino:
-*
-* <pre>
-*  void setup() {
-*    Serial.begin(<insert your baudrate here>);
-*  }
-*
-*  void loop() {
-*    if (Serial.available()) {
-*      Serial.write(Serial.read());
-*    }
-*  }
-* </pre>
-*/
-
 #include <string>
 #include <iostream>
 #include <cstdio>
+
+#include <fstream>
+
+#include "format.h"
 
 // OS Specific sleep
 #ifdef _WIN32
@@ -53,9 +39,11 @@ void enumerate_ports()
 	while (iter != devices_found.end())
 	{
 		serial::PortInfo device = *iter++;
+		//output to stdout
+		printf("(%s, %s, %s)\n", device.port.c_str(), device.description.c_str(), device.hardware_id.c_str());
 
-		printf("(%s, %s, %s)\n", device.port.c_str(), device.description.c_str(),
-			device.hardware_id.c_str());
+		//output to out.txt
+		cout << fmt::format("({0}, {1}, {2})", device.port.c_str(), device.description.c_str(), device.hardware_id.c_str()) << endl;
 	}
 }
 
@@ -67,6 +55,11 @@ void print_usage()
 
 int run(int argc, char **argv)
 {
+	std::ofstream out("out.txt");
+	std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
+	std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+
+
 	if (argc < 2) {
 		print_usage();
 		return 0;
@@ -170,6 +163,8 @@ int run(int argc, char **argv)
 
 		count += 1;
 	}
+
+	std::cout.rdbuf(coutbuf); //reset to standard output again
 
 	return 0;
 }

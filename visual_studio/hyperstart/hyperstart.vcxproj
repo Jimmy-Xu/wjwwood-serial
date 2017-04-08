@@ -22,6 +22,9 @@
     <ClCompile Include="init.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\fmt\fmt.vcxproj">
+      <Project>{793ee9d9-d6bd-3afa-beb8-8509e74fddb2}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\serial\serial.vcxproj">
       <Project>{a8517fb2-c74e-43bd-b3c6-b05d3fc11ecd}</Project>
     </ProjectReference>
@@ -85,7 +88,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\fmt\include;$(ProjectDir)..\..\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

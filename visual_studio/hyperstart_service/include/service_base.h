@@ -46,7 +46,7 @@ class ServiceBase {
   void WriteToEventLog(const CString& msg, WORD type = EVENTLOG_INFORMATION_TYPE);
 
   // Overro=ide these functions as you need.
-  virtual void OnStart(DWORD argc, TCHAR* argv[]) = 0;
+  virtual void OnStart(DWORD argc, _TCHAR* argv[]) = 0;
   virtual void OnStop() {}
   virtual void OnPause() {}
   virtual void OnContinue() {}
@@ -56,7 +56,7 @@ class ServiceBase {
                                WTSSESSION_NOTIFICATION* /*notification*/) {}
  private:
   // Registers handle and starts the service.
-  static void WINAPI SvcMain(DWORD argc, TCHAR* argv[]);
+  static void WINAPI SvcMain(DWORD argc, _TCHAR* argv[]);
 
   // Called whenever service control manager updates service status.
   static DWORD WINAPI ServiceCtrlHandler(DWORD ctrlCode, DWORD evtType,
@@ -64,7 +64,7 @@ class ServiceBase {
 
   static bool RunInternal(ServiceBase* svc);
 
-  void Start(DWORD argc, TCHAR* argv[]);
+  void Start(DWORD argc, _TCHAR* argv[]);
   void Stop();
   void Pause();
   void Continue();

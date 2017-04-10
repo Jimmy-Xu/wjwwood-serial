@@ -136,7 +136,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)..\..\include;$(ProjectDir)..\fmt\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -161,6 +161,14 @@
     <ClInclude Include="include\hyperstart_service.h" />
     <ClInclude Include="include\service_base.h" />
     <ClInclude Include="include\service_installer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\fmt\fmt.vcxproj">
+      <Project>{793ee9d9-d6bd-3afa-beb8-8509e74fddb2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\serial\serial.vcxproj">
+      <Project>{a8517fb2-c74e-43bd-b3c6-b05d3fc11ecd}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

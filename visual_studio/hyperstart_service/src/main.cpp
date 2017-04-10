@@ -1,7 +1,7 @@
 #include "hyperstart_service.h"
 #include "service_installer.h"
 
-int _tmain(int argc, TCHAR* argv[]) {
+int _tmain(int argc, _TCHAR* argv[]) {
   HyperStartService service;
 
   if (argc > 1) {
@@ -61,7 +61,6 @@ int _tmain(int argc, TCHAR* argv[]) {
 		_tprintf(_T("Run hyperstart as frontend\n"));
 		return 0;
 	}
-
     _tprintf(_T("Invalid argument\n"));
     return -1;
   }

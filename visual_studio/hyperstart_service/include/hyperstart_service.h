@@ -1,9 +1,11 @@
 #ifndef HYPERSTART_SERVICE_H_
 #define HYPERSTART_SERVICE_H_
 
-#include <fstream>
-
 #include "service_base.h"
+
+#include <fstream>
+#include <string>
+
 
 const CString SERVICE_NAME = _T("HyperStartService");
 const CString SERVICE_DISPLAY_NAME = _T("HyperStart Service");
@@ -23,10 +25,13 @@ class HyperStartService : public ServiceBase {
                  SERVICE_ERROR_NORMAL,
                  SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SESSIONCHANGE) {}
  private:
-   void OnStart(DWORD argc, TCHAR* argv[]) override;
+   void OnStart(DWORD argc, _TCHAR* argv[]) override;
    void OnStop() override;
    void OnSessionChange(DWORD evtType,
                         WTSSESSION_NOTIFICATION* notification) override;
+   
+   void enumerate_ports();
+   int run(DWORD argc, _TCHAR* argv[]);
 
 #ifdef UNICODE
    using tofstream = std::wofstream;

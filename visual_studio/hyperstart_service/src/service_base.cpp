@@ -47,7 +47,7 @@ void ServiceBase::WriteToEventLog(const CString& msg, WORD type) {
 }
 
 // static
-void WINAPI ServiceBase::SvcMain(DWORD argc, TCHAR* argv[]) {
+void WINAPI ServiceBase::SvcMain(DWORD argc, _TCHAR* argv[]) {
   assert(m_service);
 
   m_service->m_svcStatusHandle = ::RegisterServiceCtrlHandlerEx(m_service->GetName(),
@@ -105,7 +105,7 @@ bool ServiceBase::RunInternal(ServiceBase* svc) {
   return ::StartServiceCtrlDispatcher(tableEntry) == TRUE;
 }
 
-void ServiceBase::Start(DWORD argc, TCHAR* argv[]) {
+void ServiceBase::Start(DWORD argc, _TCHAR* argv[]) {
   SetStatus(SERVICE_START_PENDING);
   OnStart(argc, argv);
   SetStatus(SERVICE_RUNNING);

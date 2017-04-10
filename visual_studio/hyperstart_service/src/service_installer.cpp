@@ -53,7 +53,7 @@ bool ServiceInstaller::Install(const ServiceBase& service) {
   const CString& acc = service.GetAccount();
   const CString& pass = service.GetPassword();
 
-  //_tprintf(_T("Create %s\n"), service.GetName());
+  _tprintf(_T("Create %s %s\n"), (LPCTSTR)service.GetName(),  (LPCTSTR)escapedPath);
   ServiceHandle servHandle = ::CreateService(svcControlManager,
                                              service.GetName(),
                                              service.GetDisplayName(),

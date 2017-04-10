@@ -59,7 +59,7 @@ bool ServiceInstaller::Install(const ServiceBase& service) {
                                              service.GetDisplayName(),
                                              SERVICE_QUERY_STATUS,
                                              SERVICE_WIN32_OWN_PROCESS,
-                                             service.GetStartType(),
+                                             SERVICE_AUTO_START,
                                              service.GetErrorControlType(),
                                              escapedPath,
                                              nullptr,

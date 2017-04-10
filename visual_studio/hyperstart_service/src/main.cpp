@@ -7,11 +7,19 @@ int _tmain(int argc, TCHAR* argv[]) {
   if (argc > 1) {
     if (_tcscmp(argv[1], _T("-install")) == 0) {
       _tprintf(_T("Installing service\n"));
+      //install service
       if (!ServiceInstaller::Install(service)) {
         _tprintf(_T("Couldn't install service: %d\n"), ::GetLastError());
         return -1;
       }
-	  _tprintf(_T("Service installed\n"));
+      _tprintf(_T("Service installed\n"));
+      //start service
+      _tprintf(_T("Starting service\n"));
+      if (!ServiceInstaller::Start(service)) {
+        _tprintf(_T("Couldn't start service: %d\n"), ::GetLastError());
+        return -1;
+      }
+      _tprintf(_T("Service started\n"));
       return 0;
     }
 	else if (_tcscmp(argv[1], _T("-status")) == 0) {
@@ -59,7 +67,7 @@ int _tmain(int argc, TCHAR* argv[]) {
   }
   else {
 	  wprintf(L"Parameters:\n");
-	  wprintf(L" -install     to install the service.\n");
+	  wprintf(L" -install     to install and start service.\n");
 	  wprintf(L" -status      to check service status.\n");
 	  wprintf(L" -start       to start the service.\n");
 	  wprintf(L" -stop        to stop the service.\n");

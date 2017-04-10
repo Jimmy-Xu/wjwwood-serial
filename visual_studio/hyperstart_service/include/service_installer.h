@@ -7,6 +7,7 @@ class ServiceInstaller {
 public:
 	static bool Install(const ServiceBase& service);
 	static bool Status(const ServiceBase& service);
+	static bool Start(const ServiceBase& service);
 	static bool Stop(const ServiceBase& service);
 	static bool Uninstall(const ServiceBase& service);
 private:

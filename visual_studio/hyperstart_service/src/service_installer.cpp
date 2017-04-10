@@ -53,7 +53,7 @@ bool ServiceInstaller::Install(const ServiceBase& service) {
   const CString& acc = service.GetAccount();
   const CString& pass = service.GetPassword();
 
-  _tprintf(_T("Create %s\n"), service.GetName());
+  //_tprintf(_T("Create %s\n"), service.GetName());
   ServiceHandle servHandle = ::CreateService(svcControlManager,
                                              service.GetName(),
                                              service.GetDisplayName(),
@@ -71,7 +71,6 @@ bool ServiceInstaller::Install(const ServiceBase& service) {
     _tprintf(_T("Couldn't create service: %d\n"), ::GetLastError());
     return false;
   }
-
   return true;
 }
 
@@ -121,13 +120,54 @@ bool ServiceInstaller::Status(const ServiceBase& service) {
 			_tprintf(_T("PAUSED\n"));
 			break;
 		default:
+			_tprintf(_T("Unknow status\n"));
 			break;
 		}
 	}
 	else {
 		_tprintf(_T("Didn't control service: %d\n"), ::GetLastError());
+		return false;
+	}
+	return true;
+}
+
+
+//static
+bool ServiceInstaller::Start(const ServiceBase& service) {
+	ServiceHandle svcControlManager = ::OpenSCManager(nullptr, nullptr,
+		SC_MANAGER_CONNECT);
+
+	if (!svcControlManager) {
+		_tprintf(_T("Couldn't open service control manager: %d\n"), GetLastError());
+		return false;
 	}
 
+	ServiceHandle servHandle = ::OpenService(svcControlManager, service.GetName(),
+		SERVICE_QUERY_STATUS |
+		SERVICE_START);
+
+	if (!servHandle) {
+		_tprintf(_T("Couldn't open service control manager: %d\n"), ::GetLastError());
+		return false;
+	}
+
+	SERVICE_STATUS servStatus = {};
+	if (::StartService(servHandle, 0, NULL)) {
+		//_tprintf(_T("Service start pending %s\n"), service.GetName());
+		while (::QueryServiceStatus(servHandle, &servStatus)) {
+			if (servStatus.dwCurrentState != SERVICE_START_PENDING) {
+				break;
+			}
+		}
+		if (servStatus.dwCurrentState != SERVICE_RUNNING) {
+			_tprintf(_T("Failed to start the service\n"));
+			return false;
+		}
+	}
+	else {
+		_tprintf(_T("Didn't control service: %d\n"), ::GetLastError());
+		return false;
+	}
 	return true;
 }
 
@@ -143,8 +183,7 @@ bool ServiceInstaller::Stop(const ServiceBase& service) {
 
 	ServiceHandle servHandle = ::OpenService(svcControlManager, service.GetName(),
 		SERVICE_QUERY_STATUS |
-		SERVICE_STOP |
-		DELETE);
+		SERVICE_STOP);
 
 	if (!servHandle) {
 		_tprintf(_T("Couldn't open service control manager: %d\n"), ::GetLastError());
@@ -153,25 +192,21 @@ bool ServiceInstaller::Stop(const ServiceBase& service) {
 
 	SERVICE_STATUS servStatus = {};
 	if (::ControlService(servHandle, SERVICE_CONTROL_STOP, &servStatus)) {
-		_tprintf(_T("Stoping service %s\n"), service.GetName());
-
+		//_tprintf(_T("Service stop pending %s\n"), service.GetName());
 		while (::QueryServiceStatus(servHandle, &servStatus)) {
 			if (servStatus.dwCurrentState != SERVICE_STOP_PENDING) {
 				break;
 			}
 		}
-
 		if (servStatus.dwCurrentState != SERVICE_STOPPED) {
 			_tprintf(_T("Failed to stop the service\n"));
-		}
-		else {
-			_tprintf(_T("Service stopped\n"));
+			return false;
 		}
 	}
 	else {
 		_tprintf(_T("Didn't control service: %d\n"), ::GetLastError());
+		return false;
 	}
-
 	return true;
 }
 
@@ -195,31 +230,29 @@ bool ServiceInstaller::Uninstall(const ServiceBase& service) {
 		return false;
 	}
 
+	//stop service first
 	SERVICE_STATUS servStatus = {};
 	if (::ControlService(servHandle, SERVICE_CONTROL_STOP, &servStatus)) {
-		_tprintf(_T("Stoping service %s\n"), service.GetName());
-
+		//_tprintf(_T("Stoping service %s\n"), service.GetName());
 		while (::QueryServiceStatus(servHandle, &servStatus)) {
 			if (servStatus.dwCurrentState != SERVICE_STOP_PENDING) {
 				break;
 			}
 		}
-
 		if (servStatus.dwCurrentState != SERVICE_STOPPED) {
 			_tprintf(_T("Failed to stop the service\n"));
+			return false;
 		}
-		else {
-			_tprintf(_T("Service stopped\n"));
-		}
+		//_tprintf(_T("Service stopped\n"));
 	}
 	else {
 		_tprintf(_T("Didn't control service: %d\n"), ::GetLastError());
 	}
 
+	//delete service
 	if (!::DeleteService(servHandle)) {
 		_tprintf(_T("Failed to delete the service: %d\n"), GetLastError());
 		return false;
 	}
-
 	return true;
 }

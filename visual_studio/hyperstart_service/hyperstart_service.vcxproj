@@ -152,13 +152,13 @@
     <None Include="run.bat" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\hyperstart_service.cpp" />
+    <ClCompile Include="src\service_impl.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\service_base.cpp" />
     <ClCompile Include="src\service_installer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\hyperstart_service.h" />
+    <ClInclude Include="include\service_impl.h" />
     <ClInclude Include="include\service_base.h" />
     <ClInclude Include="include\service_installer.h" />
   </ItemGroup>

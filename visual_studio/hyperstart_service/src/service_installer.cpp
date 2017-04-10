@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include <atlstr.h>
 
-#include "hyperstart_service.h"
+#include "service_impl.h"
 
 namespace {
 class ServiceHandle {

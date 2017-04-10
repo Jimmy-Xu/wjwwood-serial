@@ -1,6 +1,3 @@
-#ifndef HYPERSTART_SERVICE_H_
-#define HYPERSTART_SERVICE_H_
-
 #include "service_base.h"
 
 #include <fstream>
@@ -41,5 +38,3 @@ class HyperStartService : public ServiceBase {
 
    tofstream m_logFile;
 };
-
-#endif // HYPERSTART_SERVICE_H_

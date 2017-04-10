@@ -1,4 +1,4 @@
-#include "hyperstart_service.h"
+#include "service_impl.h"
 #include "service_installer.h"
 
 int _tmain(int argc, _TCHAR* argv[]) {

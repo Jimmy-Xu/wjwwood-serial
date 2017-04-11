@@ -42,7 +42,7 @@ void HyperStartService::OnStart(DWORD argc, _TCHAR* argv[]) {
       m_logFile << _T("argv[") << i << _T("] = '") << argv[i] << "'" << endl;
     }
   }
-  HyperStartService::run(argc, argv);
+  //HyperStartService::run(argc, argv);
 }
 
 void HyperStartService::enumerate_ports()
@@ -70,7 +70,7 @@ int HyperStartService::run(DWORD argc, _TCHAR* argv[])
 
   // Argument 1 is the serial port or enumerate flag
   //string port(argv[1]);
-  string port("com1");
+  string port("com2");
 
   // Argument 2 is the baudrate
   unsigned long baud = 115200;

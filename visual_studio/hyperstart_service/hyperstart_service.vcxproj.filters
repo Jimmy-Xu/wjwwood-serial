@@ -15,6 +15,7 @@
     <None Include="README.md" />
     <None Include="build.bat" />
     <None Include="run.bat" />
+    <None Include="FAQ.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

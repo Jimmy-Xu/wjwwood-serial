@@ -25,6 +25,18 @@ git bash下用ldd命令查看exe依赖的dll
 
 
 //复制这些dll到exe所在目录，即可正常运行exe
+
+//nanoserver的docker镜像中，hyperstart_service.exe依赖的dll如下:
+ntdll.dll        Windows/System32/ntdll.dll 一致
+msvcrt.dll       Windows/System32/msvcrt.dll 一致
+sechost.dll      Windows/System32/sechost.dll 一致
+RPCRT4.dll       Windows/System32/rpcrt4.dll 大小写
+KERNELBASE.dll   Windows/System32/KernelBase.dll 大小写
+KERNEL32.DLL     Windows/System32/forwarders/kernel32.dll 位置及大小写
+ADVAPI32.dll     Windows/System32/forwarders/advapi32.dll 位置及大小写
+WTSAPI32.dll     <missing>
+
+只要把WTSAPI32.dll放到hyperstart_service.exe一起即可
 ```
 
 ## FAQ 2: Debug模式编译时，默认库MSVCRT与其他库的使用冲突
